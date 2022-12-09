@@ -6,7 +6,7 @@ ini_set('display_errors', 1);
 echo "<div class=\"nav-container\">";
 echo "<div class=\"nav-item\"><a href=\"frontpage.php\">Home</a></div>";
 echo "<div class=\"nav-item\"><a href=\"search.php\">Search</a></div>";
-echo "<div class=\"nav-item\"><a href=\"showwatchlist.php\">Watchlist</a></div>";
+echo "<div class=\"nav-item\"><a href=\"watchlist.php\">Watchlist</a></div>";
 echo "<div class=\"nav-item\">";
         if (!isset($_SESSION['valid_user'])){
             

@@ -6,6 +6,7 @@ use_http();
 $query_str = "SELECT contents.name, contents.year, contents.rate, contents.votes, contents.content_type, contents.content_id FROM contents";
 $query_str_where = "";
 $query_str_order = "";
+$query_str_limit = " LIMIT 10";
 //retrieve data from ajax post 
 $type_filter = $_POST['type_filter'];
 $popularity_filter = $_POST['popularity_filter'];
@@ -25,7 +26,7 @@ if ($type_filter =="film"){
     else {
         $query_str_order = "";
     }
-    $query_str .= $query_str_where . $query_str_order;
+    $query_str .= $query_str_where . $query_str_order. $query_str_limit;
 }
 else if ($type_filter == "series"){
     $query_str_where = " WHERE content_type = 'series'";
@@ -41,7 +42,7 @@ else if ($type_filter == "series"){
     else {
         $query_str_order = "";
     }
-    $query_str .= $query_str_where . $query_str_order;
+    $query_str .= $query_str_where . $query_str_order . $query_str_limit;
 }
 else if ($type_filter == "*"){
     $query_str_where = "";
@@ -57,7 +58,7 @@ else if ($type_filter == "*"){
     else {
         $query_str_order = "";
     }
-    $query_str .= $query_str_where . $query_str_order;
+    $query_str .= $query_str_where . $query_str_order  . $query_str_limit;
 }
 
 $res = $connection->query($query_str);
@@ -91,7 +92,7 @@ $res = $connection->query($query_str);
             <th><?php echo $row[3] ?></th>
             <th><?php echo $row[4] ?></th>
             <!-- <th><?php echo $row[5] ?></th> -->
-            <th><?php echo "<a class=\"table-link\"href=\"content_detail.php?content_id=".$row[5] . "\">" . "Detail". "</a>"?></th>
+            <th><?php echo "<a class=\"table-link\"href=\"content_detail.php?content_id=".$row[5] ."\">" . "Detail". "</a>"?></th>
         </tr>
     <?php
     }

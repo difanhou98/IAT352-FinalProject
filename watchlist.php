@@ -13,12 +13,20 @@ if (isset($_SESSION['callback_url']) && $_SESSION['callback_url'] == 'watchlist.
 	unset($_SESSION['callback_url']);
 }
 
-$query_str = "SELECT contents.name, contents.year, contents.rate, contents.votes, contents.content_type, contents.genre, tags.nudity_level, tags.violence_level, tags.profanity_level, tags.alcohol_level, tags.frightening_level, contents.content_id, watchlists.date_added FROM contents INNER JOIN tags ON contents.content_id = tags.content_id INNER JOIN watchlists ON contents.id = watchlists.content_id WHERE watchlists.email = ?";
+$query_str = "SELECT contents.name, contents.year, contents.rate, contents.votes, contents.content_type, contents.genre, tags.nudity_level, tags.violence_level, tags.profanity_level, tags.alcohol_level, tags.frightening_level, contents.content_id, watchlists.date_added FROM contents INNER JOIN tags ON contents.content_id = tags.content_id INNER JOIN watchlists ON contents.content_id = watchlists.content_id WHERE watchlists.email = ?";
+
 
 $stmt = $connection->prepare($query_str);
+// echo $_SESSION['valid_user'];
 $stmt->bind_param('s',$_SESSION['valid_user']);
+if ($stmt){
 $stmt->execute();
+$result = $stmt->get_result();
 
+}
+// else {
+//     echo "empty";
+// }
 
 if ($connection->error) {
     die($connection->error);
@@ -31,6 +39,8 @@ if ($connection->error) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery.js"></script>
+    <script src="js/remove.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -48,35 +58,35 @@ if ($connection->error) {
         <th>Profanity Level</th>
         <th>Alcohol Level</th>
         <th>Frightening Level</th>
-        <th>Link</th>
         <th>Date Added</th>
-        <th>Remove From List</th>
     </tr>
     <?php 
-    while ($row = $res->fetch_row()){
+    while (($row = $result->fetch_assoc())){
     ?>
-    <tr>
-            <th><?php echo $row[0] ?></th>
-            <th><?php echo $row[1] ?></th>
-            <th><?php echo $row[2] ?></th>
-            <th><?php echo $row[3] ?></th>
-            <th><?php echo $row[4] ?></th>
-            <th><?php echo $row[5] ?></th>
-            <th><?php echo $row[6] ?></th>
-            <th><?php echo $row[7] ?></th>
-            <th><?php echo $row[8] ?></th>
-            <th><?php echo $row[9] ?></th>
-            <th><?php echo $row[10] ?></th>
-            <th><?php echo $row[11] ?></th>
+    <tr class="content-row">
+            <th><?php echo $row['name'] ?></th>
+            <th><?php echo $row['year'] ?></th>
+            <th><?php echo $row['rate'] ?></th>
+            <th><?php echo $row['votes'] ?></th>
+            <th><?php echo $row['content_type'] ?></th>
+            <th><?php echo $row['genre'] ?></th>
+            <th><?php echo $row['nudity_level'] ?></th>
+            <th><?php echo $row['violence_level'] ?></th>
+            <th><?php echo $row['profanity_level'] ?></th>
+            <th><?php echo $row['alcohol_level'] ?></th>
+            <th><?php echo $row['frightening_level'] ?></th>
+            <th><?php echo $row['date_added'] ?></th>
             <!-- <th><?php echo $row[12] ?></th> -->
-            <th><?php echo "<a class=\"table-link\"href=\"content_detail.php?content_id=".$row[12] . "\">" . "Detail". "</a>"?></th>
-            <th><?php echo "<a class=\"table-link\"href=\"detele.php?content_id=".$row[12] . "\">" . "Remove". "</a>"?></th>
+            <th><?php echo "<a class=\"table-link\"href=\"content_detail.php?content_id=".$row['content_id'] . "\">" . "Detail". "</a>"?></th>
+            <th><?php echo "<a class=\"" . $row['content_id'] ." delete-button\"". " href=\"remove.php\">" . "Remove". "</a>"?></th>
         </tr>
     <?php
     }
-    $res->free_result();
+    $stmt->free_result();
     $connection->close();
+    echo "<p id='msg'></p>";
     ?>
 </table>
+
 </body>
 </html>

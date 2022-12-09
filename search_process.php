@@ -1,7 +1,7 @@
 <?php
 require ("functions.php");
 
-
+if (isset($_SESSION))
 $query_str = "SELECT contents.name, contents.year, contents.rate, contents.votes, contents.content_type, contents.genre, tags.nudity_level, tags.violence_level, tags.profanity_level, tags.alcohol_level, tags.frightening_level, contents.content_id FROM contents INNER JOIN tags ON contents.content_id = tags.content_id";
 
 $query_str_where = "";
@@ -155,7 +155,7 @@ if ($connection->error) {
             <th><?php echo $row[10] ?></th>
             <th><?php echo $row[11] ?></th>
             <!-- <th><?php echo $row[12] ?></th> -->
-            <th><?php echo "<a class=\"table-link\"href=\"content_detail.php?content_id=".$row[12] . "\">" . "Detail". "</a>"?></th>
+            <th><?php echo "<a class=\"table-link\"href=\"content_detail.php?content_id=".$row[12] ."&message=\"\"" . "\">" . "Detail". "</a>"?></th>
         </tr>
     <?php
     }

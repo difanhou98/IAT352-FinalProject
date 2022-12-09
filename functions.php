@@ -43,17 +43,14 @@ function is_logged_in(){
 function is_in_watchlist($content_id){
     global $connection;
     if (isset($_SESSION['valid_user'])){
-        $query = "SELECT COUNT(*) FROM watchlists WHERE user_id=? AND content_id=?";
+        $query = "SELECT COUNT(*) FROM watchlists WHERE email=? AND content_id=?";
         $stmt = $connection->prepare($query);
-        if ($stmt != false){
-            $stmt->bind_param("ss", $_SESSION['valid_user'], $content_id);
-            $stmt->execute();
-            $stmt->bind_result($count);
-            return ($stmt->fetch() && $count > 0);
-        }
-    }
-    if (!empty($stmt)){
-    $stmt->free_result();
+        
+        $stmt->bind_param("si", $_SESSION['valid_user'], $content_id);
+        $stmt->execute();
+        $stmt->bind_result($count);
+        return ($stmt->fetch() && $count > 0);
+        
     }
     return false;
     
