@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	var page;
 	$("#search-button").click(function () {
 		//get dropdown selection value from html
 		var keyword = $("#keyword").val();
@@ -28,6 +29,7 @@ $(document).ready(function () {
 				frightening_filter: frightening_filter,
 				type_filter: type_filter,
 				popularity_filter: popularity_filter,
+				//page: page,
 			},
 			beforeSend: function (data) {
 				$("#search-table").html("<span>Query Processing...</span>");
@@ -41,4 +43,21 @@ $(document).ready(function () {
 			},
 		});
 	});
+
+	// //load_data();
+	// function load_data(page) {
+	// 	$.ajax({
+	// 		url: "search_process.php",
+	// 		method: "POST",
+	// 		data: { page: page },
+	// 		success: function (data) {
+	// 			$("#search-table").html(data);
+	// 		},
+	// 	});
+	// }
+
+	// $(document).on("click", ".pagination-link", function () {
+	// 	page = $(this).attr("id");
+	// 	load_data(page);
+	// });
 });

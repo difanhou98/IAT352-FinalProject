@@ -2,6 +2,9 @@
 require("functions.php");
 include("nav.php");
 use_http();
+
+error_reporting(E_ALL);
+ini_set('display_errors',1);
 ?>
 
 <!DOCTYPE html>
@@ -130,3 +133,4 @@ use_http();
 <table id="search-table"></table>
 </body>
 </html>
+
